@@ -3,7 +3,7 @@ import styled.StyleSheet
 
 object WelcomeStyles : StyleSheet("WelcomeStyles", isStatic = true) {
     val textContainer by css {
-        padding(5.px)
+        padding(50.px)
 
         color = Color.aliceBlue
     }
