@@ -7,10 +7,7 @@ import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
-import styled.animation
-import styled.css
-import styled.styledDiv
-import styled.styledInput
+import styled.*
 
 external interface WelcomeProps : RProps {
     var name: String
@@ -18,14 +15,6 @@ external interface WelcomeProps : RProps {
 
 data class WelcomeState(val name: String) : RState
 
-fun CSSBuilder.shimmer() {
-    background = "linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%);"
-    backgroundSize = "1000px, 100%"
-    animation(duration = 2.s, iterationCount = IterationCount.infinite) {
-        0 { backgroundPosition = "-1000px 0" }
-        100 { backgroundPosition = "1000px 0" }
-    }
-}
 
 @JsExport
 class Welcome(props: WelcomeProps) : RComponent<WelcomeProps, WelcomeState>(props) {
@@ -48,6 +37,9 @@ class Welcome(props: WelcomeProps) : RComponent<WelcomeProps, WelcomeState>(prop
             +"Hello, ${state.name}"
             styledDiv {
                 +"Ampersand"
+                css {
+                    +WelcomeStyles.separator
+                }
             }
             styledDiv {
                 +"Hello, innner"
@@ -91,5 +83,13 @@ class Welcome(props: WelcomeProps) : RComponent<WelcomeProps, WelcomeState>(prop
                 }
             }
         }
+//        styledButton {
+//            attrs {
+//                onClick = {
+//                    event ->
+//                    setState()
+//                }
+//            }
+//        }
     }
 }
