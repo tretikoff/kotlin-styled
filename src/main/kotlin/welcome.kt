@@ -13,17 +13,16 @@ external interface WelcomeProps : RProps {
     var name: String
 }
 
-data class WelcomeState(val name: String) : RState
-
+data class WelcomeState(val name: String, var isGreen: Boolean) : RState
 
 @JsExport
 class Welcome(props: WelcomeProps) : RComponent<WelcomeProps, WelcomeState>(props) {
-
     init {
-        state = WelcomeState(props.name)
+        state = WelcomeState(props.name, true)
     }
 
     override fun RBuilder.render() {
+        val isGreen = state.isGreen
         styledDiv {
             css {
                 +WelcomeStyles.textContainer
@@ -44,7 +43,11 @@ class Welcome(props: WelcomeProps) : RComponent<WelcomeProps, WelcomeState>(prop
             styledDiv {
                 +"Hello, innner"
                 css {
-                    backgroundColor = Color.red
+                    backgroundColor = if (isGreen) {
+                        Color.green
+                    } else {
+                        Color.red
+                    }
                     color = Color.white
                 }
             }
@@ -78,18 +81,10 @@ class Welcome(props: WelcomeProps) : RComponent<WelcomeProps, WelcomeState>(prop
                 value = state.name
                 onChangeFunction = { event ->
                     setState(
-                        WelcomeState(name = (event.target as HTMLInputElement).value)
+                        WelcomeState(name = (event.target as HTMLInputElement).value, isGreen = !state.isGreen)
                     )
                 }
             }
         }
-//        styledButton {
-//            attrs {
-//                onClick = {
-//                    event ->
-//                    setState()
-//                }
-//            }
-//        }
     }
 }
