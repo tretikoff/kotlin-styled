@@ -3,10 +3,7 @@ import kotlinx.css.properties.*
 import kotlinx.html.InputType
 import kotlinx.html.js.onChangeFunction
 import org.w3c.dom.HTMLInputElement
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
+import react.*
 import styled.*
 
 external interface WelcomeProps : RProps {
@@ -23,6 +20,7 @@ class Welcome(props: WelcomeProps) : RComponent<WelcomeProps, WelcomeState>(prop
 
     override fun RBuilder.render() {
         val isGreen = state.isGreen
+        outer(if (isGreen) Color.bisque else Color.aliceBlue)
         styledDiv {
             css {
                 +WelcomeStyles.textContainer
@@ -88,3 +86,29 @@ class Welcome(props: WelcomeProps) : RComponent<WelcomeProps, WelcomeState>(prop
         }
     }
 }
+
+external interface OuterProps : RProps {
+    var color: Color
+}
+
+class PureOuter(props: OuterProps) : RPureComponent<OuterProps, RState>(props) {
+    override fun RBuilder.render() {
+        console.log("outer rerender")
+        styledDiv {
+            css {
+                backgroundColor = props.color
+            }
+            +"outer pure"
+            styledDiv {
+                console.log("inner rerender")
+                css {
+                    backgroundColor = Color.pink
+                    height = 50.px
+                    width = 120.px
+                }
+            }
+        }
+    }
+}
+
+fun RBuilder.outer(color: Color) = child(PureOuter::class) { attrs.color = color }
