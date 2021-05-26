@@ -57,6 +57,7 @@ class Welcome(props: WelcomeProps) : RComponent<WelcomeProps, WelcomeState>(prop
                 }
             }
         }
+        statisticsButton()
         styledInput {
             css {
                 +WelcomeStyles.textInput
@@ -93,14 +94,14 @@ external interface OuterProps : RProps {
 
 class PureOuter(props: OuterProps) : RPureComponent<OuterProps, RState>(props) {
     override fun RBuilder.render() {
-        console.log("outer rerender")
+//        console.log("outer rerender")
         styledDiv {
             css {
                 backgroundColor = props.color
             }
             +"outer pure"
             styledDiv {
-                console.log("inner rerender")
+//                console.log("inner rerender")
                 css {
                     backgroundColor = Color.pink
                     height = 50.px
